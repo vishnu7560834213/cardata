@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car World</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: rgb(250, 253, 253);">
+    <h1 style="text-align: center;">Car World</h1>
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h3>Enter details</h3>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="brandInput" placeholder="Car brand">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="priceInput" placeholder="Price">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="carKeyInput" placeholder="Key">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline-success" style="margin-left: 50px;" onclick="addRecord()">Add record</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h3>Enter key to retrieve items</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="retrieveKeyInput" placeholder="Key">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline-primary" style="margin-left: 50px;" onclick="retrieveRecords()">Retrieve records</button>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="card-body" id="retrieveResults"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h3>Enter key to delete item</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="deleteKeyInput" placeholder="Key">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline-danger" style="margin-left: 50px;" onclick="deleteRecord()">Delete records</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+        <button type="button" class="btn btn-outline-dark" style="width: 95%;" onclick="clearAllRecords()">Clear all records</button>
+    </div>
+
+    <script>
+        let carRecords = []; // Array to store car records
+
+        function addRecord() {
+            let brand = document.getElementById('brandInput').value;
+            let price = document.getElementById('priceInput').value;
+            let carKey = document.getElementById('carKeyInput').value;
+
+            let record = {
+                brand: brand,
+                price: price,
+                key: carKey
+            };
+
+            carRecords.push(record);
+            console.log("Record added:", record);
+        }
+
+        function retrieveRecords() {
+            let retrieveKey = document.getElementById('retrieveKeyInput').value;
+            let foundRecords = carRecords.filter(record => record.key === retrieveKey);
+
+            let displayResults = document.getElementById('retrieveResults');
+            if (foundRecords.length > 0) {
+                displayResults.innerHTML = "<strong>Records found:</strong><br>" + JSON.stringify(foundRecords, null, 2);
+            } else {
+                displayResults.innerHTML = "<strong>No records found for the key:</strong> " + retrieveKey;
+            }
+        }
+
+        function deleteRecord() {
+            let deleteKey = document.getElementById('deleteKeyInput').value;
+            let initialLength = carRecords.length;
+            carRecords = carRecords.filter(record => record.key !== deleteKey);
+
+            if (carRecords.length < initialLength) {
+                console.log("Records deleted for the key:", deleteKey);
+            } else {
+                console.log("No records found for the key:", deleteKey);
+            }
+        }
+
+        function clearAllRecords() {
+            carRecords = [];
+            console.log("All records cleared.");
+        }
+    </script>
+</body>
+</html>
+
